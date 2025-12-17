@@ -1,5 +1,5 @@
 import { swaggerUI } from "@hono/swagger-ui";
-import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import {
 	createSnowflake,
 	deleteSnowflake,
@@ -13,7 +13,9 @@ const app = new OpenAPIHono();
 const SnowflakeSchema = z
 	.object({
 		id: z.number().openapi({ example: 1 }),
-		pattern: z.string().openapi({ example: "  *  \n * * \n*   *\n * * \n  *  " }),
+		pattern: z
+			.string()
+			.openapi({ example: "  *  \n * * \n*   *\n * * \n  *  " }),
 		size: z.number().openapi({ example: 5 }),
 		melted: z.number().openapi({ example: 0 }),
 		createdAt: z.number().openapi({ example: 1734123456 }),
@@ -56,7 +58,10 @@ const getRoute = createRoute({
 	description: "Returns a single snowflake by its ID",
 	request: {
 		params: z.object({
-			id: z.string().pipe(z.coerce.number()).openapi({ param: { name: "id", in: "path" }, example: "1" }),
+			id: z
+				.string()
+				.pipe(z.coerce.number())
+				.openapi({ param: { name: "id", in: "path" }, example: "1" }),
 		}),
 	},
 	responses: {
@@ -83,7 +88,10 @@ const renderRoute = createRoute({
 	description: "Returns the snowflake pattern as plain text",
 	request: {
 		params: z.object({
-			id: z.string().pipe(z.coerce.number()).openapi({ param: { name: "id", in: "path" }, example: "1" }),
+			id: z
+				.string()
+				.pipe(z.coerce.number())
+				.openapi({ param: { name: "id", in: "path" }, example: "1" }),
 		}),
 	},
 	responses: {
@@ -114,8 +122,16 @@ const createRoute_ = createRoute({
 				"application/json": {
 					schema: z
 						.object({
-							size: z.number().min(1).max(20).optional().openapi({ example: 11 }),
-							seed: z.string().optional().openapi({ example: "my-unique-seed" }),
+							size: z
+								.number()
+								.min(1)
+								.max(20)
+								.optional()
+								.openapi({ example: 11 }),
+							seed: z
+								.string()
+								.optional()
+								.openapi({ example: "my-unique-seed" }),
 							style: StyleEnum.optional().openapi({ example: "classic" }),
 						})
 						.openapi("CreateSnowflakeRequest"),
@@ -153,7 +169,10 @@ const meltRoute = createRoute({
 	description: "Marks a snowflake as melted",
 	request: {
 		params: z.object({
-			id: z.string().pipe(z.coerce.number()).openapi({ param: { name: "id", in: "path" }, example: "1" }),
+			id: z
+				.string()
+				.pipe(z.coerce.number())
+				.openapi({ param: { name: "id", in: "path" }, example: "1" }),
 		}),
 	},
 	responses: {
@@ -180,7 +199,10 @@ const deleteRoute = createRoute({
 	description: "Permanently removes a snowflake",
 	request: {
 		params: z.object({
-			id: z.string().pipe(z.coerce.number()).openapi({ param: { name: "id", in: "path" }, example: "1" }),
+			id: z
+				.string()
+				.pipe(z.coerce.number())
+				.openapi({ param: { name: "id", in: "path" }, example: "1" }),
 		}),
 	},
 	responses: {
@@ -268,7 +290,8 @@ app.doc("/doc", {
 	info: {
 		title: "Snowflake API",
 		version: "1.0.0",
-		description: "A festive API for generating and managing procedural ASCII snowflakes ❄️",
+		description:
+			"A festive API for generating and managing procedural ASCII snowflakes ❄️",
 	},
 	tags: [
 		{
